@@ -562,6 +562,7 @@ a {
 <body>
 <!-- HEADER -->
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -579,38 +580,73 @@ a {
       font-family: Arial, Helvetica, sans-serif;
     }
 
+    /* HEADER */
     .site-header {
       width: 100%;
       background: #ffffff;
-      padding: 12px 5%;
+      padding: 12px 20px;
       border-bottom: 1px solid #eeeeee;
     }
 
     .nav-container {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
+      align-items: flex-start;
+      justify-content: flex-start;
+      width: 100%;
       max-width: 1200px;
       margin: 0 auto;
     }
 
+    /* LOGO AND TEXT */
     .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 6px;
       text-decoration: none;
       color: #234b32;
-      font-size: 18px;
+      font-size: 15px;
       font-weight: 700;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
+      text-align: left;
+      margin: 0;
+      padding: 0;
     }
 
     .brand-logo {
-      width: 116px;
-      height: 50px;
+      width: 135px;
+      height: 30px;
       object-fit: contain;
+      object-position: left center;
       display: block;
       flex-shrink: 0;
+    }
+
+    .brand span {
+      display: block;
+      margin: 0;
+      padding: 0;
+      line-height: 1.4;
+    }
+
+    /* MOBILE VIEW */
+    @media (max-width: 768px) {
+      .site-header {
+        padding: 12px 15px;
+      }
+
+      .nav-container {
+        justify-content: flex-start;
+        align-items: flex-start;
+        margin: 0;
+      }
+
+      .brand {
+        align-items: flex-start;
+        text-align: left;
+        margin-left: 0;
+      }
     }
   </style>
 </head>
@@ -622,7 +658,7 @@ a {
     <div class="nav-container">
       <a class="brand" href="https://tbarc.in">
         <img
-          src="images/logo.png"
+          src="images/nihal.jpg"
           alt="TBARC Logo"
           class="brand-logo"
         >
@@ -633,6 +669,7 @@ a {
 
 </body>
 </html>
+
 
 
 
