@@ -881,6 +881,7 @@ separating each object with a comma.
 
 const teamMembers = [
   {
+    slug: "nihal-moideen",
     name: "Nihal moideen C.T.P.",
     cardName: "NIHAL MOIDEEN",
     role: "Executive  head, Division of Publications",
@@ -893,6 +894,7 @@ const teamMembers = [
     }
   },
  {
+    slug: "unaisudheen",
     name: "Unaisudheen T.P.",
     cardName: "UNAISUDHEEN",
     role: "Head, Media & Communications Division",
@@ -905,6 +907,7 @@ const teamMembers = [
     }
   },
   {
+    slug: "aleem-yoosuf",
     name: "Aleem Yoosuf N.",
     cardName: "ALEEM YOOSUF",
     role: "Head, Division of Outreach Operations",
@@ -923,6 +926,7 @@ Beyond research, I work to bridge the gap between ecological science and local c
     }
   },
    {
+    slug: "zakhiya",
     name: "zakhiya P.C.",
     cardName: "ZAKHIYA",
     role: "Head, Division of Content Creation & Creative Design",
@@ -935,6 +939,7 @@ Beyond research, I work to bridge the gap between ecological science and local c
     }
   },
   {
+    slug: "muhammed-anas",
     name: "Muhammed Anas P.",
     cardName: "MUHAMMED ANAS",
     role: "Head, Division of Finance & Accounts",
@@ -992,7 +997,7 @@ teamMembers.forEach((member, index) => {
   info.append(name, role, view);
   card.append(photo, info);
 
-  card.addEventListener("click", () => openProfile(index));
+  card.addEventListener("click", () => openProfile(index, true));
 
   teamGrid.appendChild(card);
 });
@@ -1009,8 +1014,13 @@ const profileSocials = document.getElementById("profileSocials");
 
 let lastFocusedElement = null;
 
-function openProfile(index) {
+function openProfile(index, updateUrl = true) {
   const member = teamMembers[index];
+
+  // Keep the selected profile shareable as a URL hash.
+  if (updateUrl && member.slug) {
+    history.pushState({ teamProfile: member.slug }, "", "#" + member.slug);
+  }
 
   lastFocusedElement = document.activeElement;
 
@@ -1068,7 +1078,11 @@ function openProfile(index) {
   closeButton.focus();
 }
 
-function closeProfile() {
+function closeProfile(updateUrl = true) {
+  if (updateUrl && window.location.hash) {
+    history.pushState({}, "", window.location.pathname + window.location.search);
+  }
+
   modal.classList.remove("is-open");
   modal.setAttribute("aria-hidden", "true");
   document.body.classList.remove("modal-open");
@@ -1091,6 +1105,27 @@ document.addEventListener("keydown", (event) => {
     closeProfile();
   }
 });
+
+// Open a member profile when its hash URL is visited directly, and keep
+// the popup in sync with browser Back/Forward navigation.
+function syncProfileWithHash() {
+  const slug = window.location.hash.slice(1).toLowerCase();
+  if (!slug) {
+    if (modal.classList.contains("is-open")) closeProfile(false);
+    return;
+  }
+
+  const index = teamMembers.findIndex(member => member.slug === slug);
+  if (index !== -1) {
+    openProfile(index, false);
+  }
+}
+
+window.addEventListener("popstate", syncProfileWithHash);
+window.addEventListener("hashchange", syncProfileWithHash);
+window.addEventListener("DOMContentLoaded", syncProfileWithHash);
+// Also run immediately because this script is placed at the end of the page.
+syncProfileWithHash();
 </script>
 
 </body>
