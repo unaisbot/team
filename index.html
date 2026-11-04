@@ -224,7 +224,9 @@ a {
 }
 
 .member-info {
-  padding: 22px 21px 23px;
+  padding: 22px 21px 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 .member-name {
@@ -233,6 +235,34 @@ a {
   font-weight: 800;
   letter-spacing: .3px;
   margin: 0 0 7px;
+}
+
+.member-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 5px;
+  padding-top: 12px;
+  border-top: 1px solid #edf1ed;
+}
+
+.member-id {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  margin: 0;
+  padding: 4px 7px;
+  border: 1px solid #d8e8dc;
+  border-radius: 5px;
+  background: #f1f7f2;
+  color: #315d43;
+  font-family: "Courier New", monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .25px;
+  line-height: 1.4;
+  white-space: nowrap;
 }
 
 .member-role {
@@ -246,10 +276,13 @@ a {
 .view-profile {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
+  justify-content: flex-end;
+  gap: 5px;
+  flex: 0 0 auto;
   color: var(--muted);
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
 .member-card:hover .view-profile {
@@ -357,6 +390,21 @@ a {
   line-height: 1.2;
   margin: 0 0 13px;
   overflow-wrap: anywhere;
+}
+
+.profile-member-id {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 0 13px;
+  padding: 6px 11px;
+  border-left: 3px solid var(--green);
+  border-radius: 4px;
+  background: var(--light-green);
+  color: var(--dark-green);
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .5px;
 }
 
 .profile-role {
@@ -920,6 +968,7 @@ a {
         <p class="profile-label">TBARC India · Team Profile</p>
 
         <h2 class="profile-name" id="profileName"></h2>
+        <p class="profile-member-id" id="profileMemberId"></p>
 
         <p class="profile-role" id="profileRole"></p>
 
@@ -997,6 +1046,7 @@ EDIT TEAM MEMBERS HERE
 =========================================================
 
 For each member, update:
+memberId   = Unique TBARC member ID (e.g. TBARC-MEM-001)
 name       = Full name
 cardName   = Name displayed on the card (optional)
 role       = Official role/designation
@@ -1013,6 +1063,7 @@ separating each object with a comma.
 
 const teamMembers = [
   {
+    memberId: "TBARC-MEM-001",
     slug: "nihal-moideen",
     name: "Nihal moideen C.T.P.",
     cardName: "NIHAL MOIDEEN",
@@ -1026,6 +1077,7 @@ const teamMembers = [
     }
   },
  {
+    memberId: "TBARC-MEM-002",
     slug: "unaisudheen",
     name: "Unaisudheen T.P.",
     cardName: "UNAISUDHEEN",
@@ -1039,6 +1091,7 @@ const teamMembers = [
     }
   },
   {
+    memberId: "TBARC-MEM-003",
     slug: "aleem-yoosuf",
     name: "Aleem Yoosuf N.",
     cardName: "ALEEM YOOSUF",
@@ -1058,6 +1111,7 @@ Beyond research, I work to bridge the gap between ecological science and local c
     }
   },
    {
+    memberId: "TBARC-MEM-004",
     slug: "zakhiya",
     name: "zakhiya P.C.",
     cardName: "ZAKHIYA",
@@ -1071,6 +1125,7 @@ Beyond research, I work to bridge the gap between ecological science and local c
     }
   },
   {
+    memberId: "TBARC-MEM-005",
     slug: "muhammed-anas",
     name: "Muhammed Anas P.",
     cardName: "MUHAMMED ANAS",
@@ -1118,6 +1173,10 @@ teamMembers.forEach((member, index) => {
   name.className = "member-name";
   name.textContent = member.cardName || member.name;
 
+  const memberId = document.createElement("span");
+  memberId.className = "member-id";
+  memberId.textContent = member.memberId;
+
   const role = document.createElement("p");
   role.className = "member-role";
   role.textContent = member.role;
@@ -1126,7 +1185,11 @@ teamMembers.forEach((member, index) => {
   view.className = "view-profile";
   view.textContent = "View profile ↗";
 
-  info.append(name, role, view);
+  const cardFooter = document.createElement("div");
+  cardFooter.className = "member-card-footer";
+  cardFooter.append(memberId, view);
+
+  info.append(name, role, cardFooter);
   card.append(photo, info);
 
   card.addEventListener("click", () => openProfile(index, true));
@@ -1140,6 +1203,7 @@ const modal = document.getElementById("profileModal");
 const closeButton = document.getElementById("closeModal");
 const profileImage = document.getElementById("profileImage");
 const profileName = document.getElementById("profileName");
+const profileMemberId = document.getElementById("profileMemberId");
 const profileRole = document.getElementById("profileRole");
 const profileBio = document.getElementById("profileBio");
 const profileSocials = document.getElementById("profileSocials");
@@ -1166,6 +1230,7 @@ function openProfile(index, updateUrl = true) {
   };
 
   profileName.textContent = member.name;
+  profileMemberId.textContent = member.memberId;
   profileRole.textContent = member.role;
   profileBio.textContent = member.bio;
 
