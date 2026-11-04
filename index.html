@@ -248,19 +248,17 @@ a {
 }
 
 .member-id {
-  display: inline-flex;
-  align-items: center;
+  display: inline-block;
   min-width: 0;
   margin: 0;
-  padding: 4px 7px;
-  border: 1px solid #d8e8dc;
-  border-radius: 5px;
-  background: #f1f7f2;
-  color: #315d43;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #6b786e;
   font-family: "Courier New", monospace;
   font-size: 9px;
   font-weight: 700;
-  letter-spacing: .25px;
+  letter-spacing: .35px;
   line-height: 1.4;
   white-space: nowrap;
 }
@@ -276,17 +274,30 @@ a {
 .view-profile {
   display: inline-flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 5px;
+  justify-content: center;
   flex: 0 0 auto;
-  color: var(--muted);
-  font-size: 12px;
+  min-width: 64px;
+  padding: 7px 15px;
+  border: 1px solid #c9e2cf;
+  border-radius: 7px;
+  background: #e4f1e6;
+  color: #075333;
+  font-size: 11px;
   font-weight: 700;
+  letter-spacing: .2px;
+  line-height: 1.2;
   white-space: nowrap;
+  box-shadow: 0 2px 5px rgba(7,83,51,.08);
+  transition: background .2s ease, border-color .2s ease, transform .2s ease, box-shadow .2s ease;
 }
 
-.member-card:hover .view-profile {
-  color: var(--green);
+.member-card:hover .view-profile,
+.member-card:focus-visible .view-profile {
+  background: #d3e9d8;
+  border-color: #a9cfb2;
+  color: #043b25;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 9px rgba(7,83,51,.12);
 }
 
 /* PROFILE MODAL */
@@ -645,7 +656,14 @@ a {
   }
 
   .view-profile {
+    min-width: 56px;
+    padding: 7px 11px;
     font-size: 10px;
+  }
+
+  .member-id {
+    font-size: 8px;
+    letter-spacing: 0;
   }
 
   .profile-modal {
@@ -807,11 +825,8 @@ a {
     </a>
 
     <a
-      href="https://forms.gle/cvtcP5pCJYYg6xUD7"
-      class="get-involved-btn"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
+      href="https://volunteer.tbarc.in"
+      class="get-involved-btn"    >
       Get Involved
     </a>
   </div>
@@ -1183,7 +1198,7 @@ teamMembers.forEach((member, index) => {
 
   const view = document.createElement("span");
   view.className = "view-profile";
-  view.textContent = "View profile ↗";
+  view.textContent = "View";
 
   const cardFooter = document.createElement("div");
   cardFooter.className = "member-card-footer";
